@@ -30,3 +30,10 @@ process.on("unhandledRejection", (err) => {
     process.exit(1);
   });
 });
+
+// Handle uncaught exceptions
+process.on("uncaughtException", async (err) => {
+  console.error("Uncaught Exception:", err);
+  await disconnectDB();
+  process.exit(1);
+});
