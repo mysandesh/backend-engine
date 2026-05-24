@@ -37,3 +37,12 @@ process.on("uncaughtException", async (err) => {
   await disconnectDB();
   process.exit(1);
 });
+
+// Graceful shutdown
+process.on("SIGTERM", async () => {
+  console.log("SIGTERM received, shutting down gracefully");
+  server.close(async () => {
+    await disconnectDB();
+    process.exit(0);
+  });
+});
