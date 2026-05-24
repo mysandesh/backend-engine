@@ -3,7 +3,7 @@ import { config } from "dotenv";
 import { connectDB, disconnectDB } from "./config/db.js";
 import "dotenv/config";
 
-// Import Routers
+// Import Routes
 import movieRoutes from "./routes/movieRoutes.js";
 config();
 connectDB();
@@ -20,4 +20,13 @@ app.get("/hello", (req, res) => {
 const PORT = 5001;
 const server = app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
+});
+
+//Handle unhandled promise rejections (such as database connection errors)
+process.on("unhandledRejection", (err) => {
+  console.error("Unhandled Rejection:", err);
+  server.close(async () => {
+    await disconnectDB();
+    process.exit(1);
+  });
 });
