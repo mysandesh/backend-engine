@@ -11,6 +11,8 @@ const register = async (req, res) => {
   if (userExists) {
     return res.status(400).json({ error: "User already exists" });
   }
+
+  // Hash Password
 };
 
 export { register };
