@@ -1,6 +1,16 @@
+import { prisma } from "../config/db.js";
+
 const register = async (req, res) => {
-  const body = req.body;
-  res.json({ message: "body" });
+  const { name, email, password } = req.body;
+
+  // Check if user already exists
+  const userExists = await prisma.user.findUnique({
+    where: { email: email },
+  });
+
+  if (userExists) {
+    return res.status(400).json({ error: "User already exists" });
+  }
 };
 
 export { register };
