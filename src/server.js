@@ -5,6 +5,7 @@ import "dotenv/config";
 
 // Import Routes
 import movieRoutes from "./routes/movieRoutes.js";
+import authRoutes from "./routes/authRoutes.js";
 config();
 connectDB();
 
@@ -12,6 +13,7 @@ const app = express();
 
 // API Routes
 app.use("/movies", movieRoutes);
+app.use("/auth", authRoutes);
 
 app.get("/hello", (req, res) => {
   res.json({ message: "Hello World" });
