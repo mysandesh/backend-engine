@@ -4,12 +4,12 @@ import bcrypt from "bcryptjs";
 const register = async (req, res) => {
   const { name, email, password } = req.body;
 
-  // Check if user already exists
-
   // Fix: Validate the argument before querying
   if (!email) {
     return res.status(400).json({ error: "Email is required" });
   }
+
+  // Check if user already exists
   const userExists = await prisma.user.findUnique({
     where: { email: email },
   });

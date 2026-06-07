@@ -1,11 +1,12 @@
 import { PrismaClient } from "../generated/client/client.ts";
 import { PrismaPg } from "@prisma/adapter-pg";
+import { Pool } from "pg";
 
-const connectionString = `${process.env.DATABASE_URL}`;
+const connectionString = process.env.DATABASE_URL;
 
-const adapter = new PrismaPg({
-  connectionString: process.env.DATABASE_URL,
-});
+// Create a PostgreSQL pool
+const pool = new Pool({ connectionString });
+const adapter = new PrismaPg(pool); // Pass pool, not connectionString
 
 const prisma = new PrismaClient({
   adapter,
@@ -29,4 +30,4 @@ const disconnectDB = async () => {
   await prisma.$disconnect();
 };
 
-export { prisma, connectDB, disconnectDB };
+export { pool, adapter, prisma, connectDB, disconnectDB };
