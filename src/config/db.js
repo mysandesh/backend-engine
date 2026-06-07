@@ -1,14 +1,20 @@
 import { PrismaClient } from "../generated/client/client.ts";
-import { PrismaPg } from "@prisma/adapter-pg";
-import { Pool } from "pg";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import "dotenv/config";
+// import { PrismaPg } from "@prisma/adapter-pg";
+// import { Pool } from "pg";
 
 const connectionString = process.env.DATABASE_URL;
 
-// Create a PostgreSQL pool
-const pool = new Pool({ connectionString });
-const adapter = new PrismaPg(pool); // Pass pool, not connectionString
+// // Create a PostgreSQL pool
+// const pool = new Pool({ connectionString });
+// const adapter = new PrismaPg(pool); // Pass pool, not connectionString
 
-const prisma = new PrismaClient({
+const adapter = new PrismaNeon({
+  connectionString: process.env.DATABASE_URL,
+});
+
+export const prisma = new PrismaClient({
   adapter,
   log:
     process.env.NODE_ENV === "development"
@@ -30,4 +36,4 @@ const disconnectDB = async () => {
   await prisma.$disconnect();
 };
 
-export { pool, adapter, prisma, connectDB, disconnectDB };
+export { connectDB, disconnectDB };
