@@ -9,5 +9,4 @@ if (runner === "nodemon") {
 }
 
 // Backup Scripts - use the following if not using scripts
-// "dev": "nodemon src/server.js",
-// "dev:tsx": "npx tsx src/server.js"
+// "dev": "node scripts/dev.js"
