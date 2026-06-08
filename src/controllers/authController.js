@@ -48,6 +48,20 @@ const register = async (req, res) => {
 // User Login
 const login = async (req, res) => {
   const { email, password } = req.body;
+
+  // Fix: Validate the argument before querying
+  if (!email) {
+    return res.status(400).json({ error: "Email is required" });
+  }
+
+  // Check if user exists in the database
+  const user = await prisma.user.findUnique({
+    where: { email: email },
+  });
+
+  if (!user) {
+    return res.status(401).json({ error: "Invalid email or password" });
+  }
 };
 
-export { register };
+export { register, login };
